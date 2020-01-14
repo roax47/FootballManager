@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/templates/main.xhtml">
+    <ui:define name="content">
+        <h:form>
+            <h:panelGrid columns="3">
+                <h:outputLabel for="login" value="Login:"/>
+                <h:inputText id="login" value="#{managerRegisterView.form.login}">
+                    <f:validateBean validationGroups="pl.edu.pg.eti.kask.javaee.example.library.manager.validation.PasswordGroup, javax.validation.groups.Default"/>
+                </h:inputText>
+                <h:message for="login"/>
+
+                <h:outputLabel for="password" value="Password:"/>
+                <h:inputSecret id="password" value="#{managerRegisterView.form.password}">
+                    <f:validateBean validationGroups="pl.edu.pg.eti.kask.javaee.example.library.manager.validation.PasswordGroup, javax.validation.groups.Default"/>
+                </h:inputSecret>
+                <h:message for="password"/><!-- takes only first message -->
+
+                <h:outputLabel for="repeatPassword" value="Repeat password:"/>
+                <h:inputSecret id="repeatPassword" value="#{managerRegisterView.form.repeatPassword}">
+                    <f:validateBean validationGroups="pl.edu.pg.eti.kask.javaee.example.library.manager.validation.PasswordGroup, javax.validation.groups.Default"/>
+                </h:inputSecret>
+                <h:messages for="repeatPassword"/>
+
+                <h:outputLabel/>
+                <h:outputLabel/>
+                <h:messages for="form"/>
+
+                <h:commandButton value="Register" action="#{managerRegisterView.register}"/>
+            </h:panelGrid>
+            <f:validateWholeBean id="form"  value="#{managerRegisterView.form}"
+                                 validationGroups="pl.edu.pg.eti.kask.javaee.example.library.manager.validation.PasswordGroup"/>
+            <!-- default validation group is ignored -->
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/templates/main.xhtml">
+    <f:metadata>
+        <f:viewParam name="player" value="#{playerCreateEdit.player}" required="false" />
+    </f:metadata>
+
+
+    <ui:define name="content">
+        <h:form>
+            <h:panelGrid columns="3">
+                <h:outputLabel value="First name:" for="name"/>
+                <h:inputText id="name" value="#{playerCreateEdit.player.firstName}"/>
+                <h:message for="name"/>
+
+                <h:outputLabel value="Last name:" for="name2"/>
+                <h:inputText id="name2" value="#{playerCreateEdit.player.lastName}"/>
+                <h:message for="name2"/>
+
+               <h:outputLabel value="Club:" for="club"/>
+                <h:selectOneListbox id="club" value="#{playerCreateEdit.player.club}">
+                    <f:selectItem itemValue="#{null}" itemLabel="-"/>
+                    <f:selectItems value="#{clubCreateEdit.availableClubs}" var="club"
+                                   itemValue="#{club}" itemLabel="#{club.name}" />
+                </h:selectOneListbox>
+                <h:message for="club"/>
+
+                <h:outputLabel value="Birthday:" for="date"/>
+                <h:inputText id="date" value="#{playerCreateEdit.player.birthdayDate}"
+                             converterMessage="Please provide date in dd-mm-yyyy format">
+                    <f:convertDateTime type="localDate" pattern="dd-MM-yyyy"/>
+                </h:inputText>
+                <h:message for="date"/>
+
+                <h:outputLabel value="Position:" for="position"/>
+                <h:selectOneMenu id="position" value="#{playerCreateEdit.player.position}">
+                    <f:selectItems value="#{playerCreateEdit.availablePosition}"
+                                   var="position" itemValue="#{position}" itemLabel="#{position}"/>
+                </h:selectOneMenu>
+                <h:message for="position"/>
+
+                <h:outputLabel value="Number:" for="number"/>
+                    <h:inputText id="number" value="#{playerCreateEdit.player.number}">
+                    </h:inputText>
+                <h:message for="number"/>
+
+
+                <h:commandButton value="Save" action="#{playerCreateEdit.savePlayer}"/>
+            </h:panelGrid>
+        </h:form>
+
+        <h:button value="Back" outcome="player_list.xhtml"/>
+    </ui:define>
+
+</ui:composition>

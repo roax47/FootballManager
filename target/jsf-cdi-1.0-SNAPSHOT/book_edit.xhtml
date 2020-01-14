@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/templates/main.xhtml">
+    <f:metadata>
+        <f:viewParam name="book" value="#{bookEdit.book}" required="true"/>
+    </f:metadata>
+
+    <ui:define name="content">
+        <h:form>
+            <h:panelGrid columns="3">
+                <h:outputLabel value="Title:" for="title"/>
+                <h:inputText id="title" value="#{bookEdit.book.title}"/>
+                <h:message for="title"/>
+
+                <h:outputLabel value="Cover:" for="cover"/>
+                <h:selectOneMenu id="cover" value="#{bookEdit.book.cover}">
+                    <f:selectItems value="#{bookEdit.availableCovers}" var="cover" itemValue="#{cover}" itemLabel="#{cover}"/>
+                </h:selectOneMenu>
+                <h:message for="cover"/>
+
+                <h:outputLabel value="Publish date:" for="date"/>
+                <h:inputText id="date" value="#{bookEdit.book.publishDate}">
+                    <f:convertDateTime type="localDate" pattern="yyyy-MM-dd"/>
+                </h:inputText>
+                <h:message for="date"/>
+
+                <h:outputLabel value="Authors:" for="authors"/>
+                <h:selectManyListbox id="authors" collectionType="java.util.ArrayList" value="#{bookEdit.book.authors}">
+                    <f:selectItems value="#{bookEdit.availableAuthors}" var="author" itemValue="#{author}"
+                                   itemLabel="#{author.name} #{author.surname}"/>
+                </h:selectManyListbox>
+                <h:message for="authors"/>
+
+                <h:commandButton value="Save" action="#{bookEdit.saveBook}"/>
+                <h:messages/>
+            </h:panelGrid>
+        </h:form>
+
+        <h:button value="Back" outcome="book_list.xhtml"/>
+    </ui:define>
+
+</ui:composition>

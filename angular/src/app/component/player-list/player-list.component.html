@@ -1,0 +1,46 @@
+<table>
+  <tr>
+    <th id="id">ID</th>
+    <th id="name">First name</th>
+    <th id="name2">Last name</th>
+    <th id="date">Birthday</th>
+    <th id="position">Position</th>
+    <th id="number">Number</th>
+  </tr>
+  <tr *ngFor="let player of players | async">
+    <td>
+      {{player.id}}
+    </td>
+
+    <td>
+      {{player.firstName}}
+    </td>
+
+    <td>
+      {{player.lastName}}
+    </td>
+
+    <td>
+      {{player.birthdayDate}}
+    </td>
+
+    <td>
+      {{player.position}}
+    </td>
+
+    <td>
+      {{player.number}}
+    </td>
+
+    <td>
+      <button [routerLink]="['/players', player.id, 'edit']">Edit</button>
+    </td>
+
+    <td>
+      <button (click)="remove(player)">Delete</button>
+    </td>
+  </tr>
+  <td>
+    <button [routerLink]="['/players', 'edit']">Create</button>
+  </td>
+</table>

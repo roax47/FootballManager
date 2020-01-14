@@ -1,0 +1,52 @@
+<form #playerForm="ngForm" *ngIf="player"  >
+  <table>
+    <tr>
+      <td><label for="firstName">First name:</label></td>
+      <td>
+        <input type="text" id="firstName" name="firstName" [(ngModel)]="player.firstName" class='playerForm' required>
+      </td>
+    </tr>
+    <tr>
+      <td><label for="lastName">Last name:</label></td>
+      <td>
+        <input type="text" id="lastName" name="lastName" [(ngModel)]="player.lastName" class='playerForm' required>
+      </td>
+    </tr>
+
+    <tr>
+      <td><label for="birthdayDate">Birthday:</label></td>
+      <td>
+        <input type="text" id="birthdayDate" name="birthdayDate" [(ngModel)]="player.birthdayDate" class='playerForm' [pattern]="datePattern"  required>
+        <div *ngIf="playerForm.controls['birthdayDate'].errors?.pattern">
+            Date is required in YYYY-mm-dd format
+        </div>
+      </td>
+    </tr>
+
+    <tr>
+      <td><label for="position">Position:</label>
+      <td>
+        <select [(ngModel)]="player.position" id="position" name="position" class='playerForm' required>
+          <option *ngFor="let position of positionKeys" [ngValue]="availablePositions[position]">
+            {{availablePositions[position]}}
+          </option>
+        </select>
+      </td>
+    </tr>
+
+    <tr>
+      <td><label for="number">Number:</label></td>
+      <td>
+        <input type='number' id="number" name="number" [(ngModel)]="player.number" required>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <button type="button" (click)="save()" [disabled]="!playerForm.form.valid">Save</button>
+      </td>
+      <td></td>
+    </tr>
+  </table>
+</form>
+<button routerLink="/players">Back</button>

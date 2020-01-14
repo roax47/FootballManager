@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/templates/main.xhtml">
+    <f:metadata>
+        <f:viewParam name="manager" value="#{managerCreateEdit.manager}" required="false" />
+    </f:metadata>
+
+
+    <ui:define name="content">
+        <h:form>
+            <h:panelGrid columns="3">
+                <h:outputLabel value="Login:" rendered="#{managerList.checkRole()}" for="login" />
+                <h:inputText id="login" value="#{managerCreateEdit.manager.login}"
+                             rendered="#{managerList.checkRole()}"/>
+                <h:message for="login" rendered="#{managerList.checkRole()}"/>
+
+                <h:outputLabel value="Club:"  for="club"/>
+                <h:selectOneListbox  id="club" value="#{managerCreateEdit.manager.club}">
+                    <f:selectItem itemValue="#{null}" itemLabel="-"/>
+                    <f:selectItems value="#{clubCreateEdit.availableClubs}" var="club"
+                                   itemValue="#{club}" itemLabel="#{club.name}" />
+                </h:selectOneListbox>
+                <h:message for="club"/>
+
+                <h:outputLabel value="Roles:" rendered="#{managerList.checkRole()}" for="roles"/>
+                <h:selectManyListbox id="roles" collectionType="java.util.HashSet"
+                                     value="#{managerCreateEdit.manager.roles}" rendered="#{managerList.checkRole()}">
+                    <f:selectItems value="#{managerCreateEdit.availableRoles}" var="role" itemValue="#{role}"
+                                   itemLabel="#{role} "/>
+                </h:selectManyListbox>
+                <h:message for="roles" rendered="#{managerList.checkRole()}"/>
+                <h:commandButton value="Save" action="#{managerCreateEdit.saveManager}"/>
+            </h:panelGrid>
+        </h:form>
+
+        <h:button value="Back" outcome="manager_list.xhtml"/>
+    </ui:define>
+
+</ui:composition>

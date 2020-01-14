@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/templates/main.xhtml">
+
+    <ui:define name="content">
+        <h:dataTable id = "uPlayers" value="#{playerModifiedList.players}" var="player">
+            <h:column>
+                <f:facet name="header">ID</f:facet>
+                <h:outputText value="#{player.id}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">First name</f:facet>
+                <h:outputText value="#{player.firstName}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Last Name</f:facet>
+                <h:outputText value="#{player.lastName}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Club</f:facet>
+                <h:outputText value="#{player.club.name !=null ? player.club.name : '-'} "/>
+            </h:column>
+
+
+            <h:column>
+                <f:facet name="header">Modification date</f:facet>
+                <h:outputText value="#{player.modificationDate}">
+                    <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss" />
+                </h:outputText>
+            </h:column>
+        </h:dataTable>
+        <h:form>
+            <f:websocket channel="push" scope="application">
+                <f:ajax event="updateTable" render=":uPlayers" />
+            </f:websocket>
+        </h:form>
+        <ui:debug hotkey="x" />
+    </ui:define>
+</ui:composition>

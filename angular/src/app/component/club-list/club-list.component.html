@@ -1,0 +1,53 @@
+<table>
+  <tr>
+    <th id="id">ID</th>
+    <th id="name">Name</th>
+    <th id="date">Founding date</th>
+    <th id="stadiumName">Stadium name</th>
+    <th id="league">League</th>
+    <th id="players">players</th>
+  </tr>
+  <tr *ngFor="let club of clubs | async " >
+    <td>
+      {{club.id}}
+    </td>
+
+    <td>
+      {{club.name}}
+    </td>
+
+    <td>
+      {{club.foundingDate}}
+    </td>
+
+    <td>
+      {{club.stadiumName}}
+    </td>
+
+    <td>
+      {{club.league}}
+    </td>
+
+    <td>
+      <table>
+        <tr *ngFor="let player of club.players">
+          <td>
+            {{player.firstName}} {{player.lastName}}
+          </td>
+        </tr>
+      </table>
+    </td>
+
+    <td>
+      <button [routerLink]="['/clubs', club.id, 'edit']">Edit</button>
+    </td>
+
+    <td>
+      <button (click)="remove(club)">Delete</button>
+    </td>
+  </tr>
+  <td>
+    <button [routerLink]="['/clubs', 'edit']">Create</button>
+  </td>
+</table>
+

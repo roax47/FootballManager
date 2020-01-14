@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/templates/main.xhtml">
+
+        <f:metadata>
+            <f:viewParam name="club" value="#{clubCreateEdit.club}" required="false" />
+        </f:metadata>
+
+    <ui:define name="content">
+        <h:form>
+            <h:panelGrid columns="3">
+                <h:outputLabel value="Name:" for="name"/>
+                <h:inputText id="name" value="#{clubCreateEdit.club.name}"/>
+                <h:message for="name"/>
+
+                <h:outputLabel value="Founding date:" for="date"/>
+                <h:inputText id="date" value="#{clubCreateEdit.club.foundingDate}"
+                             converterMessage="Please provide date in dd-mm-yyyy format">
+                    <f:convertDateTime type="localDate" pattern="dd-MM-yyyy"/>
+                </h:inputText>
+                <h:message for="date"/>
+
+                <h:outputLabel value="Stadium:" for="stadiumName"/>
+                    <h:inputText id="stadiumName" value="#{clubCreateEdit.club.stadiumName}"/>
+                <h:message for="stadiumName"/>
+
+                <h:outputLabel value="League:" for="league"/>
+                <h:selectOneMenu id="league" value="#{clubCreateEdit.club.league}">
+                    <f:selectItems value="#{clubCreateEdit.availableCovers}" var="league" itemValue="#{league}"
+                                   itemLabel="#{league}"/>
+                </h:selectOneMenu>
+                <h:message for="league"/>
+
+                <h:outputLabel value="Manager:" for="manager"/>
+                 <h:selectOneListbox  id="manager" value="#{clubCreateEdit.club.manager}">
+                     <f:selectItem itemValue="#{null}" itemLabel="-"/>
+                     <f:selectItems value="#{managerCreateEdit.availableManagers}" var="manager" itemValue="#{manager}"
+                                    itemLabel="#{manager.login}"/>
+                 </h:selectOneListbox>
+                 <h:message for="manager"/>
+
+                 <h:outputLabel value="Players:" for="players"/>
+                 <h:selectManyListbox id="players" collectionType="java.util.ArrayList"
+                                      value="#{clubCreateEdit.club.players}">
+                     <f:selectItems value="#{playerCreateEdit.availablePlayers}" var="player" itemValue="#{player}"
+                                    itemLabel="#{player.firstName} #{player.lastName}"/>
+                 </h:selectManyListbox>
+                 <h:message for="players"/>
+
+                <h:commandButton value="Save"  action="#{clubCreateEdit.saveClub}"/>
+            </h:panelGrid>
+        </h:form>
+
+
+
+        <h:button value="Back" outcome="club_list.xhtml"/>
+    </ui:define>
+
+</ui:composition>

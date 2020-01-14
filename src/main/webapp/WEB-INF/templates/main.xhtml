@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:view>
+        <h:head>
+            <meta charset="UTF-8"/>
+            <title>Football manager</title>
+
+            <h:outputStylesheet library="css" name="styles.css"/>
+
+            <h:outputScript library="js" name="nav.js" target="body"/>
+        </h:head>
+        <h:body>
+            <header>
+                <h1>Football Manager</h1>
+                <h:form>
+                    <h:commandLink action="#{managerContext.logout}" rendered="#{request.userPrincipal ne null}">
+                        logout #{request.userPrincipal.name}</h:commandLink>
+                </h:form>
+            </header>
+                <nav class="navbar">
+                <ul>
+                    <li><h:link outcome="/football_app/player_list.xhtml" value="Players"/></li>
+                    <li><h:link outcome="/football_app/player_lastModified.xhtml" value="LastModifiedPlayers"/></li>
+                    <li><h:link outcome="/football_app/club_list.xhtml" value="Clubs"/></li>
+                    <li><h:link outcome="/football_app/manager_list.xhtml" value="Managers"/></li>
+                    <li><h:link outcome="/football_app/test.xhtml" value="Test db" rendered="#{request.userPrincipal ne null and
+                    request.isUserInRole('ADMIN')}"
+                    /></li>
+                    <li><h:link outcome="/manager_register.xhtml" value="Register"/></li>
+                </ul>
+            </nav>
+            <section>
+                <ui:insert name="content"/>
+            </section>
+        </h:body>
+    </f:view>
+</html>

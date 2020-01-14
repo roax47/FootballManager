@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/templates/main.xhtml">
+
+    <ui:define name="content">
+        <h:form>
+            <h:panelGrid columns="5">
+                <h:outputLabel value="Filter by last name:" for="txt1"/>
+                <h:inputText id="txt1" value="#{playerList.lastNameFilter}" />
+                <h:message for="txt1"/>
+                <h:commandButton value="Filter"  action="#{playerList.getPlayersByLastName()}" />
+                <h:button value="Reset Filter" outcome="player_list.xhtml"/>
+            </h:panelGrid>
+        </h:form>
+        <h:dataTable value="#{playerList.players}" var="player">
+            <h:column>
+                <f:facet name="header">ID</f:facet>
+                <h:outputText value="#{player.id}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">First name</f:facet>
+                <h:outputText value="#{player.firstName}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Last Name</f:facet>
+                <h:outputText value="#{player.lastName}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Club</f:facet>
+                <h:outputText value="#{player.club.name !=null ? player.club.name : '-'} "/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Birthday</f:facet>
+                <h:outputText value="#{player.birthdayDate}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Position</f:facet>
+                <h:outputText value="#{player.position}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Number</f:facet>
+                <h:outputText value="#{player.number}"/>
+            </h:column>
+
+            <h:column>
+                <h:button value="Edit" outcome="player_createEdit.xhtml">
+                    <f:param name="player" value="#{player.id}"/>
+                </h:button>
+            </h:column>
+            <h:column>
+                <h:form>
+                    <h:commandButton value="Delete" disabled="#{player.club.name != null}"
+                                     action="#{playerList.removePlayer(player)}"/>
+                    <h:outputText value=" Unlink club from player if you wanna delete"
+                                  rendered="#{player.club.name != null}" />
+                </h:form>
+            </h:column>
+
+        </h:dataTable>
+        <h:button value="Create" outcome="player_createEdit.xhtml"/>
+
+    </ui:define>
+
+</ui:composition>

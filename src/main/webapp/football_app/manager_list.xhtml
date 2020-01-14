@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/templates/main.xhtml">
+
+    <ui:define name="content">
+
+        <h:dataTable id = "uManagers" value="#{managerList.managers}" var="manager">
+
+            <h:column>
+                <f:facet name="header">ID</f:facet>
+                <h:outputText value="#{manager.id}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Login</f:facet>
+                <h:outputText value="#{manager.login}"/>
+            </h:column>
+
+
+            <h:column>
+                <f:facet name="header">Club</f:facet>
+                <h:outputText value="#{manager.club.name !=null ? manager.club.name : '-'} "/>
+            </h:column>
+            <h:column rendered="#{managerList.checkRole()}">
+                <f:facet name="header" rendered="#{managerList.checkRole()}">Roles</f:facet>
+                <h:dataTable value="#{manager.roles}" var="role">
+                    <h:column>
+                        <h:outputText value="#{role}"/>
+                    </h:column>
+                </h:dataTable>
+            </h:column>
+
+            <h:column>
+                <h:button value="Edit" outcome="manager_createEdit.xhtml">
+                    <f:param name="manager" value="#{manager.id}"/>
+                </h:button>
+            </h:column>
+            <h:column>
+                <h:button value="Change password" outcome="manager_change_password.xhtml">
+                    <f:param name="manager" value="#{manager.id}"/>
+                </h:button>
+            </h:column>
+            <h:column>
+                <h:form>
+                    <h:commandButton value="Delete" disabled="#{manager.club.name != null}"
+                                     action="#{managerList.removeManager(manager)}"/>
+                    <h:outputText value=" Delete or unlink club first"
+                                  rendered="#{manager.club.name != null}" />
+                </h:form>
+            </h:column>
+        </h:dataTable>
+        <h:form>
+            <h:panelGrid columns="10">
+                <h:outputLabel value="Filter value" for="txt1"/>
+                <h:inputText id="txt1" value="#{managerList.filter}" />
+                <h:message for="txt1"/>
+                <h:outputLabel value="Filter/sort by:"  for="filt"/>
+                <h:selectOneMenu  id="filt" value="#{managerList.property}">
+                    <f:selectItems value="#{managerList.managerProperties}" var="prop"
+                                   itemValue="#{prop}" itemLabel="#{prop}" />
+                </h:selectOneMenu>
+                <h:message for="filt"/>
+                <h:commandButton value="Filter"  actionListener="#{managerList.getManagersByFilter}">
+                    <f:ajax execute="@all" render=":uManagers"/>
+                </h:commandButton>
+                <h:commandButton value="Sort asc"  actionListener="#{managerList.getManagersBySortAsc}" >
+                    <f:ajax execute="@all" render=":uManagers"/>
+                </h:commandButton>
+                <h:commandButton value="Sort desc"  actionListener="#{managerList.getManagersBySortDesc}" >
+                    <f:ajax execute="@all" render=":uManagers"/>
+                </h:commandButton>
+                <h:commandButton value="Reset Filter" actionListener="#{managerList.resetFilter}">
+                    <f:ajax execute="@all" render=":uManagers"/>
+                </h:commandButton>
+            </h:panelGrid>
+        </h:form>
+        <!--<h:button value="Create" outcome="manager_createEdit.xhtml" rendered="#{managerList.checkRole()}"/>-->
+    </ui:define>
+
+</ui:composition>

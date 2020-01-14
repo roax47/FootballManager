@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/templates/main.xhtml">
+
+    <ui:define name="content">
+        <h:dataTable value="#{bookList.books}" var="book">
+            <h:column>
+                <h:outputText value="#{book.id}"/>
+            </h:column>
+
+            <h:column>
+                <h:outputText value="#{book.title}"/>
+            </h:column>
+
+            <h:column>
+                <h:dataTable value="#{book.authors}" var="author">
+                    <h:column>
+                        <h:outputText value="#{author.name} #{author.surname}"/>
+                    </h:column>
+                </h:dataTable>
+            </h:column>
+
+            <h:column>
+                <h:button value="Show" outcome="book_view.xhtml">
+                    <f:param name="book" value="#{book.id}"/>
+                </h:button>
+            </h:column>
+
+            <h:column>
+                <h:button value="Edit" outcome="book_edit.xhtml">
+                    <f:param name="book" value="#{book.id}"/>
+                </h:button>
+            </h:column>
+
+            <h:column>
+                <h:form>
+                    <h:commandButton value="Delete" action="#{bookList.removeBook(book)}"/>
+                </h:form>
+            </h:column>
+
+            <h:column>
+                <h:form>
+                    <h:commandButton value="Buy" action="#{bookList.addToBasket(book)}"/>
+                </h:form>
+            </h:column>
+        </h:dataTable>
+
+        <h:button value="Create" outcome="book_create.xhtml"/>
+    </ui:define>
+
+</ui:composition>
